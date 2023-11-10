@@ -3,11 +3,16 @@ import pandas as pd
 import numpy as np 
 from PIL import Image
 
+st.set_page_config(layout="wide", initial_sidebar_state="expanded")
+
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 #Cabeçalho
 st.header('Taxa Equivalente.')
 
 taxa_opcao = st.selectbox(
-    "Selecione o tipo de taxa:",
+    "Selecione o tipo de taxa (Ano ou Mês):",
     ("Taxa ao mês (a.m.)", "Taxa ao ano (a.a.)")
 )
 
@@ -21,9 +26,9 @@ indice_converte = st.radio(
 )
 
 #taxas 
-cdi_indice = 0.1365
-ipca_indice = 0.0647
-igpm_indice = 0.0652
+cdi_indice = 0.1215
+ipca_indice = 0.0463
+igpm_indice = 0.0446
 taxa_pre_input = taxa_pre_input / 100
 
 
@@ -55,3 +60,10 @@ if st.button("Converter!") == True:
             taxa_pre_convert = (1 + taxa_pre_input) / (1 + igpm_indice) - 1
             st.subheader(f"Juros ao mês: {juros_ao_mes}%")
             st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")
+
+st.sidebar.markdown('''
+
+Mercedes Calculator `version 2`
+                    
+Created by [Carlos Mercedes](https://www.linkedin.com/in/carlos-mercedes-121096165/).
+''')

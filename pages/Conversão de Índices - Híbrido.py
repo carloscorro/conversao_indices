@@ -3,11 +3,16 @@ import pandas as pd
 import numpy as np 
 from PIL import Image
 
+st.set_page_config(layout="wide", initial_sidebar_state="expanded")
+
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 #Título 
-st.header('Conversão de índices.')
+st.header('Conversão de Índices - Híbrido.')
 
 indice_input = st.radio(
-    "Selecione o índice:",
+    "Selecione o Índice Pós:",
     ("CDI", "IPCA", "IGPM")
 )
 
@@ -45,3 +50,10 @@ taxa_pre_convert = round(taxa_pre_convert * 100,2)
 
 if st.button("Converter!") == True:
     st.subheader(f"{indice_converte} + {taxa_pre_convert}%")
+
+st.sidebar.markdown('''
+
+Mercedes Calculator `version 2`
+                    
+Created by [Carlos Mercedes](https://www.linkedin.com/in/carlos-mercedes-121096165/).
+''')
