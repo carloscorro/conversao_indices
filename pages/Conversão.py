@@ -3,32 +3,6 @@ import pandas as pd
 import numpy as np 
 from PIL import Image
 
-# st.set_page_config(
-#     page_tile="Nex Gestão de Recursos - Conversão de Índices"
-#     page_icon="🚀",
-# )
-
-#Função que define a logo na página
-def add_logo(logo_path, width, height):
-    """Read and return a resized logo"""
-    logo = Image.open(logo_path)
-    modified_logo = logo.resize((width, height))
-    return modified_logo
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.write(' ')
-
-with col2:
-    st.image("logo_nex.png")
-
-with col3:
-    st.write(' ')
-
-#st.image(add_logo(logo_path="logo_nex.png", width=190, height=90))
-
-
 #Título 
 st.header('Conversão de índices.')
 
@@ -71,5 +45,3 @@ taxa_pre_convert = round(taxa_pre_convert * 100,2)
 
 if st.button("Converter!") == True:
     st.subheader(f"{indice_converte} + {taxa_pre_convert}%")
-
-    

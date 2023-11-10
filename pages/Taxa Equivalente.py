@@ -3,24 +3,7 @@ import pandas as pd
 import numpy as np 
 from PIL import Image
 
-#Função que define a logo na página
-def add_logo(logo_path, width, height):
-    """Read and return a resized logo"""
-    logo = Image.open(logo_path)
-    modified_logo = logo.resize((width, height))
-    return modified_logo
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.write(' ')
-
-with col2:
-    st.image("logo_nex.png")
-
-with col3:
-    st.write(' ')
-
+#Cabeçalho
 st.header('Taxa Equivalente.')
 
 taxa_opcao = st.selectbox(
@@ -72,4 +55,3 @@ if st.button("Converter!") == True:
             taxa_pre_convert = (1 + taxa_pre_input) / (1 + igpm_indice) - 1
             st.subheader(f"Juros ao mês: {juros_ao_mes}%")
             st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")
-    
