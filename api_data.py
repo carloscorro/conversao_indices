@@ -47,6 +47,8 @@ df_ipca_igpm.reset_index(inplace=True)
 
 #Filtrando os dados a partir de uma data
 df_cdi = df_cdi[df_cdi['data'] >= '2002-08-01']
-df_ipca_igpm = df_ipca_igpm[df_ipca_igpm['data'] >= '2002-08-01']
+df_ipca_igpm = df_ipca_igpm[df_ipca_igpm['data'] >= '2023-05-01']
+
+df_ipca_igpm['data'] = df_ipca_igpm['data'].dt.strftime('%Y-%m-%d')
 
 print(df_ipca_igpm)
