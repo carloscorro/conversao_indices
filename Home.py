@@ -22,7 +22,7 @@ col5.metric("Dólar", "R$4,91", "-0,51%")
 
 st.sidebar.markdown('''
 
-Mercedes Calculator `version 2`
+**Mercedes Calculator** `version 2`
                     
 Created by [Carlos Mercedes](https://www.linkedin.com/in/carlos-mercedes-121096165/).
 ''')

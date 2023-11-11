@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd 
 import numpy as np 
 from PIL import Image
+import time 
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
@@ -49,8 +50,12 @@ elif indice_converte == "IGPM":
 taxa_pre_convert = round(taxa_pre_convert * 100,2)
 
 if st.button("Converter!") == True:
-    st.subheader(f"{indice_converte} + {taxa_pre_convert}%")
+    with st.spinner('Calculando...'):
+        time.sleep(1)
+        st.subheader(f"{indice_converte} + {taxa_pre_convert}%")
+        st.success('Pronto!')
 
+        
 st.sidebar.markdown('''
 
 Mercedes Calculator `version 2`
