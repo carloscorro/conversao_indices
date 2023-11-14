@@ -49,9 +49,24 @@ df_ipca_igpm.reset_index(inplace=True)
 
 #Filtrando os dados a partir de uma data
 df_cdi = df_cdi[df_cdi['data'] >= '2002-08-01']
-df_ipca_igpm = df_ipca_igpm[df_ipca_igpm['data'] >= '2023-05-01']
+df_ipca_igpm = df_ipca_igpm[df_ipca_igpm['data'] >= '2023-01-01']
 
 df_ipca_igpm['data'] = df_ipca_igpm['data'].dt.strftime('%Y-%m-%d')
+
+#Importando os dados do Ibovespa e Dólar
+ibov = yf.Ticker('^BVSP').history(period='12mo')
+dolar = yf.Ticker('BRL=X').history(period='12mo')
+
+df_ibov = ibov['Close']
+df_dolar = dolar['Close']
+
+#Pegando o valor do último fechamento para colocar no Painel
+ibov_ult = ibov['Close'].iloc[-1:].values
+dolar_ult = dolar['Close'].iloc[-1:].values
+
+# print(type(df_ibov))
+
+######################======================#######################
 
 #Configurando o Layout da Página
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
@@ -78,14 +93,19 @@ with col6:
     tab1, tab2, tab3 = st.tabs(['CDI', 'IPCA','IGPM'])
 
     #Configurando o Gráfico do CDI
-    fig_cdi = px.line(df_cdi, x='data', y='CDI', title="CDI ao longo do Tempo")
+    fig_cdi = px.line(df_cdi, x='data', y='CDI', title="CDI(%) ao mês")
 
-    #Configurando o Gráfico do IPCA e IGPM
-    fig_ipca_igpm = px.bar(df_ipca_igpm, x='data', y='IPCA', title='IPCA')
+    #Configurando o Gráfico do IPCA
+    fig_ipca = px.bar(df_ipca_igpm, x='data', y='IPCA', title='IPCA(%) ao mês')
+
+    #Configurando o Gráfico do IGPM
+    fig_igpm = px.bar(df_ipca_igpm, x='data', y='IGPM', title='IGPM(%) ao mês')
 
     #Plotando o Gráfico na Tab
     tab1.plotly_chart(fig_cdi)
-    tab2.plotly_chart(fig_ipca_igpm)
+    tab2.plotly_chart(fig_ipca)
+    tab3.plotly_chart(fig_igpm)
+    
 
 with col7:
     tab1, tab2, tab3 = st.tabs(['Ibovespa', 'Dólar','WTI'])
@@ -99,7 +119,7 @@ with col7:
 #Rodapé do Sidebar
 st.sidebar.markdown('''
 
-**Mercedes Calculator** `version 2`
+**Mercedes Calculator** `version 1.1`
                     
 Created by [Carlos Mercedes](https://www.linkedin.com/in/carlos-mercedes-121096165/).
 ''')

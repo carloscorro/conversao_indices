@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -23,8 +22,8 @@ df_ipca['data'] = pd.to_datetime(df_ipca['data'], dayfirst=True)
 df_igpm = pd.read_json(url_igpm)
 df_igpm['data'] = pd.to_datetime(df_igpm['data'], dayfirst=True)
 
-
-# Convertendo a frequência da data em Mensal
+#Convertendo a frequência da data em Mensal
+#Para isso é preciso indexar a DATA
 df_igpm.set_index('data', inplace=True)
 df_ipca.set_index('data', inplace=True)
 
@@ -34,7 +33,7 @@ df_ipca.index = df_ipca.index.to_period('M')
 #Renomeando as colunas pelos nomes dos Índices
 df_ipca.rename(columns={'valor':'IPCA'}, inplace=True)
 df_igpm.rename(columns={'valor':'IGPM'}, inplace=True)
-df_cdi = df_cdi.rename(columns={'valor':'CDI'}) 
+df_cdi.rename(columns={'valor':'CDI'}, inplace=True) 
 
 #Concatenando as Colunas pela Data
 df_ipca_igpm = pd.concat([df_ipca,df_igpm], axis=1)
@@ -47,8 +46,19 @@ df_ipca_igpm.reset_index(inplace=True)
 
 #Filtrando os dados a partir de uma data
 df_cdi = df_cdi[df_cdi['data'] >= '2002-08-01']
-df_ipca_igpm = df_ipca_igpm[df_ipca_igpm['data'] >= '2023-05-01']
+df_ipca_igpm = df_ipca_igpm[df_ipca_igpm['data'] >= '2023-01-01']
 
 df_ipca_igpm['data'] = df_ipca_igpm['data'].dt.strftime('%Y-%m-%d')
 
-print(df_ipca_igpm)
+#Importando os dados do Ibovespa e Dólar
+ibov = yf.Ticker('^BVSP').history(period='12mo')
+dolar = yf.Ticker('BRL=X').history(period='12mo')
+
+df_ibov = ibov['Close']
+df_dolar = dolar['Close']
+
+#Pegando o valor do último fechamento para colocar no Painel
+ibov_ult = ibov['Close'].iloc[-1:].values
+dolar_ult = dolar['Close'].iloc[-1:].values
+
+# print(type(df_ibov))
