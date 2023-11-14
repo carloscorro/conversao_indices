@@ -97,7 +97,7 @@ delta_crude = round(((crude_ult / crude_ult_2) - 1) * 100,2)
 ######################======================#######################
 
 #Configurando o Layout da Página
-st.set_page_config(layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(layout="wide", initial_sidebar_state="expanded",)
 
 #Chamando o style.css da Página
 with open('style.css') as f:
@@ -106,7 +106,9 @@ with open('style.css') as f:
 #Editando a primeira linha do Dashboardo com informações dos Índices
 st.header('Benchmarks.')
 
-col1, col2, col3, col4, col5, col6 = st.columns(6)
+wid_col = 5
+
+col1, col2, col3, col4, col5, col6 = st.columns([wid_col,wid_col,wid_col,wid_col,wid_col,wid_col])
 col1.metric("CDI", "12,15%", "-0,50%")
 col2.metric("IPCA (12m)", "4,82%", "0,24%")
 col3.metric("IGPM (12m)", "-4,57%", "0,50%")
@@ -114,21 +116,21 @@ col4.metric(label='Ibovespa(pts)', value=atual_ibov, delta=delta_ibov)
 col5.metric(label='Dólar', value=atual_dol, delta=delta_dol)
 col6.metric(label='Crude Oil', value=atual_crude, delta=delta_crude)
 
-col6, col7 = st.columns(2)
+col7, col8 = st.columns(2)
 
 #Editando a segunda linha do Dashboard com Gráficos
 
-with col6:
+with col7:
     tab1, tab2, tab3 = st.tabs(['CDI', 'IPCA','IGPM'])
 
     #Configurando o Gráfico do CDI
-    fig_cdi = px.line(df_cdi, x='data', y='CDI', title="CDI")
+    fig_cdi = px.line(df_cdi, x='data', y='CDI', title="CDI", width=580)
 
     #Configurando o Gráfico do IPCA
-    fig_ipca = px.bar(df_ipca_igpm, x='data', y='IPCA', title='IPCA(%) ao mês')
+    fig_ipca = px.bar(df_ipca_igpm, x='data', y='IPCA', title='IPCA(%) ao mês', width=580)
 
     #Configurando o Gráfico do IGPM
-    fig_igpm = px.bar(df_ipca_igpm, x='data', y='IGPM', title='IGPM(%) ao mês')
+    fig_igpm = px.bar(df_ipca_igpm, x='data', y='IGPM', title='IGPM(%) ao mês',width=580)
 
     #Plotando o Gráfico na Tab
     tab1.plotly_chart(fig_cdi)
@@ -136,18 +138,18 @@ with col6:
     tab3.plotly_chart(fig_igpm)
     
 
-with col7:
-    tab1, tab2, tab3 = st.tabs(['Ibovespa', 'Dólar','Crude Oil'])
+with col8:
+    tab3, tab4, tab5 = st.tabs(['Ibovespa', 'Dólar','Crude Oil'])
 
     #Configurando o Gráfico
-    fig_ibov = px.line(df_ibov, x='Data', y='IBOV', title="Ibovespa")
-    fig_dol = px.line(df_dolar, x='Data', y='Dolar', title="Dólar")
-    fig_crude = px.line(df_crude, x='Data', y='Crude', title="Crude Oil")
+    fig_ibov = px.line(df_ibov, x='Data', y='IBOV', title="Ibovespa", width=580)
+    fig_dol = px.line(df_dolar, x='Data', y='Dolar', title="Dólar", width=580)
+    fig_crude = px.line(df_crude, x='Data', y='Crude', title="Crude Oil", width=580)
 
     #Plotando o Gráfico na Tab
-    tab1.plotly_chart(fig_ibov)
-    tab2.plotly_chart(fig_dol)
-    tab3.plotly_chart(fig_crude)
+    tab3.plotly_chart(fig_ibov)
+    tab4.plotly_chart(fig_dol)
+    tab5.plotly_chart(fig_crude)
 
 #Rodapé do Sidebar
 st.sidebar.markdown('''
