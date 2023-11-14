@@ -5,8 +5,10 @@ from PIL import Image
 import plost
 import plotly.express as px
 import plotly.graph_objects as go
+import yfinance as yf
+import numpy as np
 
-#Acessando os Dados por API
+#ACESSANDO OS DADOS POR API DO CDI, IPCA E IGPM
 codigo_bcb_cdi = 4389
 codigo_bcb_ipca = 433
 codigo_bcb_igpm = 189
@@ -53,6 +55,10 @@ df_ipca_igpm = df_ipca_igpm[df_ipca_igpm['data'] >= '2023-01-01']
 
 df_ipca_igpm['data'] = df_ipca_igpm['data'].dt.strftime('%Y-%m-%d')
 
+
+######################======================#######################
+
+
 #IIMPORTANDO OS DADOS DO IBOVESPA E DOLAR
 ibov = yf.Ticker('^BVSP').history(period='12mo')
 dolar = yf.Ticker('BRL=X').history(period='12mo')
@@ -64,11 +70,18 @@ df_ibov['Data'] = ibov['Close'].index
 df_ibov['IBOV'] = list(ibov['Close'])
 
 df_dolar['Data'] = dolar['Close'].index
-df_dolar['Dólar'] = list(dolar['Close'])
+df_dolar['Dolar'] = list(dolar['Close'])
 
 #Pegando o valor do último fechamento para colocar no Painel
-ibov_ult = ibov['Close'].iloc[-1:].values
-dolar_ult = dolar['Close'].iloc[-1:].values
+ibov_ult = round(df_ibov['IBOV'].iloc[-1],2)
+atual_ibov = '{0:,}'.format(ibov_ult).replace(',','.')
+ibov_ult_2 = round(df_ibov['IBOV'].iloc[-2],2)
+delta_ibov = round(((ibov_ult / ibov_ult_2) - 1) * 100,2)
+
+dol_ult = round(df_dolar['Dolar'].iloc[-1],2)
+atual_dol = '{0:,}'.format(dol_ult).replace('.',',')
+dol_ult_2 = round(df_dolar['Dolar'].iloc[-2],2)
+delta_dol = round(((dol_ult / dol_ult_2) - 1) * 100,2)
 
 ######################======================#######################
 
@@ -86,8 +99,8 @@ col1, col2, col3, col4, col5 = st.columns(5)
 col1.metric("CDI", "12,15%", "-0,50%")
 col2.metric("IPCA (12m)", "4,82%", "0,24%")
 col3.metric("IGPM (12m)", "-4,57%", "0,50%")
-col4.metric("Ibovespa (Pts)", "120.568,14", "+1,29%")
-col5.metric("Dólar", "R$4,91", "-0,51%")
+col4.metric(label='Ibovespa(pts)', value=atual_ibov, delta=delta_ibov)
+col5.metric(label='Dólar', value=atual_dol, delta=delta_dol)
 
 col6, col7 = st.columns(2)
 
