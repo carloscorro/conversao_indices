@@ -53,18 +53,22 @@ df_ipca_igpm = df_ipca_igpm[df_ipca_igpm['data'] >= '2023-01-01']
 
 df_ipca_igpm['data'] = df_ipca_igpm['data'].dt.strftime('%Y-%m-%d')
 
-#Importando os dados do Ibovespa e Dólar
+#IIMPORTANDO OS DADOS DO IBOVESPA E DOLAR
 ibov = yf.Ticker('^BVSP').history(period='12mo')
 dolar = yf.Ticker('BRL=X').history(period='12mo')
 
-df_ibov = ibov['Close']
-df_dolar = dolar['Close']
+df_ibov = pd.DataFrame()
+df_dolar = pd.DataFrame()
+
+df_ibov['Data'] = ibov['Close'].index
+df_ibov['IBOV'] = list(ibov['Close'])
+
+df_dolar['Data'] = dolar['Close'].index
+df_dolar['Dólar'] = list(dolar['Close'])
 
 #Pegando o valor do último fechamento para colocar no Painel
 ibov_ult = ibov['Close'].iloc[-1:].values
 dolar_ult = dolar['Close'].iloc[-1:].values
-
-# print(type(df_ibov))
 
 ######################======================#######################
 
