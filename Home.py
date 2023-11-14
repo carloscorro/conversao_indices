@@ -58,41 +58,40 @@ df_ipca_igpm['data'] = df_ipca_igpm['data'].dt.strftime('%Y-%m-%d')
 ######################======================#######################
 
 #IIMPORTANDO OS DADOS DO IBOVESPA E DOLAR
-ibov = yf.Ticker('^BVSP').history(period='12mo')
-dolar = yf.Ticker('BRL=X').history(period='12mo')
-crude = yf.Ticker('CL=F').history(period='12mo')
+tickers = ['^BVSP', 'BRL=X', 'CL=F']
+indices = ['IBOV', 'Dolar', 'Crude']
+
+def tratar_df(ticker, indice):
+    ticker = yf.Ticker(ticker).history(period='12mo')
+    df = pd.DataFrame()
+    df['Data'] = ticker['Close'].index
+    df[indice] = list(ticker['Close'])
+    df['Data'] = df['Data'].dt.strftime('%Y-%m-%d')
+    return df
 
 df_ibov = pd.DataFrame()
-df_dolar = pd.DataFrame()
+df_dol = pd.DataFrame()
 df_crude = pd.DataFrame()
 
-df_ibov['Data'] = ibov['Close'].index
-df_ibov['IBOV'] = list(ibov['Close'])
-df_ibov['Data'] = df_ibov['Data'].dt.strftime('%Y-%m-%d')
-
-df_dolar['Data'] = dolar['Close'].index
-df_dolar['Dolar'] = list(dolar['Close'])
-df_dolar['Data'] = df_dolar['Data'].dt.strftime('%Y-%m-%d')
-
-df_crude['Data'] = crude['Close'].index
-df_crude['Crude'] = list(crude['Close'])
-df_crude['Data'] = df_crude['Data'].dt.strftime('%Y-%m-%d')
-
-#Pegando o valor do último fechamento para colocar no Painel
-ibov_ult = round(df_ibov['IBOV'].iloc[-1],2)
-atual_ibov = '{0:,}'.format(ibov_ult).replace(',','.')
-ibov_ult_2 = round(df_ibov['IBOV'].iloc[-2],2)
-delta_ibov = round(((ibov_ult / ibov_ult_2) - 1) * 100,2)
-
-dol_ult = round(df_dolar['Dolar'].iloc[-1],2)
-atual_dol = '{0:,}'.format(dol_ult).replace('.',',')
-dol_ult_2 = round(df_dolar['Dolar'].iloc[-2],2)
-delta_dol = round(((dol_ult / dol_ult_2) - 1) * 100,2)
-
-crude_ult = round(df_crude['Crude'].iloc[-1],2)
-atual_crude = '{0:,}'.format(crude_ult).replace('.',',')
-crude_ult_2 = round(df_crude['Crude'].iloc[-2],2)
-delta_crude = round(((crude_ult / crude_ult_2) - 1) * 100,2)
+for t, i in zip(tickers, indices):
+    if t == '^BVSP':
+        df_ibov = tratar_df(t, i)
+        ibov_ult = round(df_ibov[i].iloc[-1],2)
+        ibov_ult_2 = round(df_ibov[i].iloc[-2],2)
+        delta_ibov = round(((ibov_ult / ibov_ult_2) - 1) * 100,2)
+        atual_ibov = '{0:,}'.format(ibov_ult).replace(',','.')
+    elif t == 'BRL=X': 
+        df_dol = tratar_df(t,i)
+        dol_ult = round(df_dol[i].iloc[-1],2)
+        atual_dol = '{0:,}'.format(dol_ult).replace('.',',')
+        dol_ult_2 = round(df_dol[i].iloc[-2],2)
+        delta_dol = round(((dol_ult / dol_ult_2) - 1) * 100,2)
+    elif t == 'CL=F':
+        df_crude = tratar_df(t,i)   
+        crude_ult = round(df_crude[i].iloc[-1],2)
+        atual_crude = '{0:,}'.format(crude_ult).replace('.',',')
+        crude_ult_2 = round(df_crude[i].iloc[-2],2)
+        delta_crude = round(((crude_ult / crude_ult_2) - 1) * 100,2)
 
 ######################======================#######################
 
@@ -143,7 +142,7 @@ with col8:
 
     #Configurando o Gráfico
     fig_ibov = px.line(df_ibov, x='Data', y='IBOV', title="Ibovespa", width=580)
-    fig_dol = px.line(df_dolar, x='Data', y='Dolar', title="Dólar", width=580)
+    fig_dol = px.line(df_dol, x='Data', y='Dolar', title="Dólar", width=580)
     fig_crude = px.line(df_crude, x='Data', y='Crude', title="Crude Oil", width=580)
 
     #Plotando o Gráfico na Tab
