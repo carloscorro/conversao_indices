@@ -1,31 +1,34 @@
 import streamlit as st
 import pandas as pd 
 import numpy as np 
-from PIL import Image
-import plost
 import plotly.express as px
 import plotly.graph_objects as go
 import yfinance as yf
 import numpy as np
 
 #ACESSANDO OS DADOS POR API DO CDI, IPCA E IGPM
-codigo_bcb_cdi = 4389
-codigo_bcb_ipca = 433
-codigo_bcb_igpm = 189
+#Acessando os Dados por API
+codigos_bcb = [4389, 433, 189]
+indices_bcb = ['CDI', 'IPCA', 'IGPM']
 
-url_cdi = f'https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo_bcb_cdi}/dados?formato=json'
-url_ipca = f'https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo_bcb_ipca}/dados?formato=json'
-url_igpm = f'https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo_bcb_igpm}/dados?formato=json'
+df_cdi = pd.DataFrame()
+df_ipca = pd.DataFrame()
+df_igpm = pd.DataFrame()
 
-#Convertendo Coluna de data em DateTime
-df_cdi = pd.read_json(url_cdi)
-df_cdi['data'] = pd.to_datetime(df_cdi['data'], dayfirst=True)
+def tratar_dados(cod):
+    url = f'https://api.bcb.gov.br/dados/serie/bcdata.sgs.{cod}/dados?formato=json'
+    df = pd.read_json(url)
+    #Convertendo Coluna de data em DateTime
+    df['data'] = pd.to_datetime(df['data'], dayfirst=True)
+    return df
 
-df_ipca = pd.read_json(url_ipca)
-df_ipca['data'] = pd.to_datetime(df_ipca['data'], dayfirst=True)
-
-df_igpm = pd.read_json(url_igpm)
-df_igpm['data'] = pd.to_datetime(df_igpm['data'], dayfirst=True)
+for cod, i in zip(codigos_bcb, indices_bcb):
+    if i == 'CDI':
+        df_cdi = tratar_dados(cod)            
+    if i == 'IPCA':
+        df_ipca = tratar_dados(cod)            
+    if i == 'IGPM':
+        df_igpm = tratar_dados(cod)            
 
 #Convertendo a frequência da data em Mensal
 #Para isso é preciso indexar a DATA
