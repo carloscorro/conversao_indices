@@ -7,7 +7,6 @@ import yfinance as yf
 import numpy as np
 
 #ACESSANDO OS DADOS POR API DO CDI, IPCA E IGPM
-#Acessando os Dados por API
 codigos_bcb = [4389, 433, 189]
 indices_bcb = ['CDI', 'IPCA', 'IGPM']
 
@@ -96,7 +95,7 @@ for t, i in zip(tickers, indices):
         crude_ult_2 = round(df_crude[i].iloc[-2],2)
         delta_crude = round(((crude_ult / crude_ult_2) - 1) * 100,2)
 
-######################======================#######################
+######################======================########################
 
 #Configurando o Layout da Página
 st.set_page_config(layout="wide", initial_sidebar_state="expanded",)
