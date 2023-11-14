@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd 
 import numpy as np 
 from PIL import Image
+import time 
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
@@ -30,16 +31,27 @@ taxa_pre_input = taxa_pre_input / 100
 taxa_cdi_nominal = taxa_pre_input * cdi_indice
 
 if st.button("Converter!") == True:
-    st.subheader(f"Taxa nominal ao ano: {round(taxa_cdi_nominal * 100,2)}%")
-    if indice_converte == "CDI":
-        taxa_pre_convert = (1 + taxa_cdi_nominal) / (1 + cdi_indice) - 1
-        st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")  
-    elif indice_converte == "IPCA":
-        taxa_pre_convert = (1 + taxa_cdi_nominal) / (1 + ipca_indice) - 1
-        st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")
-    elif indice_converte == "IGPM":
-        taxa_pre_convert = (1 + taxa_cdi_nominal) / (1 + igpm_indice) - 1
-        st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")
+    with st.spinner('Calculando...'):
+        time.sleep(1)
+        st.subheader(f"Taxa nominal ao ano: {round(taxa_cdi_nominal * 100,2)}%")
+        if indice_converte == "CDI":
+            taxa_pre_convert = (1 + taxa_cdi_nominal) / (1 + cdi_indice) - 1
+            if taxa_pre_convert < 0:
+                st.subheader(f"{indice_converte} - {round(taxa_pre_convert * 100 *-1,2)}%")
+            else:
+                st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")
+        elif indice_converte == "IPCA":
+            taxa_pre_convert = (1 + taxa_cdi_nominal) / (1 + ipca_indice) - 1
+            if taxa_pre_convert < 0:
+                st.subheader(f"{indice_converte} - {round(taxa_pre_convert * 100 *-1,2)}%")
+            else:
+                st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")
+        elif indice_converte == "IGPM":
+            taxa_pre_convert = (1 + taxa_cdi_nominal) / (1 + igpm_indice) - 1
+            if taxa_pre_convert < 0:
+                st.subheader(f"{indice_converte} - {round(taxa_pre_convert * 100 *-1,2)}%")
+            else:
+                st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")
 
 st.sidebar.markdown('''
 

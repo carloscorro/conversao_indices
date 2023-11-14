@@ -52,13 +52,14 @@ taxa_pre_convert = round(taxa_pre_convert * 100,2)
 if st.button("Converter!") == True:
     with st.spinner('Calculando...'):
         time.sleep(1)
-        st.subheader(f"{indice_converte} + {taxa_pre_convert}%")
-        st.success('Pronto!')
-
+        if taxa_pre_convert < 0:
+            st.subheader(f"{indice_converte} - {taxa_pre_convert *-1}%")
+        else:
+            st.subheader(f"{indice_converte} + {taxa_pre_convert}%")
         
 st.sidebar.markdown('''
 
-Mercedes Calculator `version 2`
+Mercedes Calculator `version 1.1`
                     
 Created by [Carlos Mercedes](https://www.linkedin.com/in/carlos-mercedes-121096165/).
 ''')

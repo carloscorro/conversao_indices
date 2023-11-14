@@ -55,9 +55,7 @@ df_ipca_igpm = df_ipca_igpm[df_ipca_igpm['data'] >= '2023-01-01']
 
 df_ipca_igpm['data'] = df_ipca_igpm['data'].dt.strftime('%Y-%m-%d')
 
-
 ######################======================#######################
-
 
 #IIMPORTANDO OS DADOS DO IBOVESPA E DOLAR
 ibov = yf.Ticker('^BVSP').history(period='12mo')
@@ -68,9 +66,11 @@ df_dolar = pd.DataFrame()
 
 df_ibov['Data'] = ibov['Close'].index
 df_ibov['IBOV'] = list(ibov['Close'])
+df_ibov['Data'] = df_ibov['Data'].dt.strftime('%Y-%m-%d')
 
 df_dolar['Data'] = dolar['Close'].index
 df_dolar['Dolar'] = list(dolar['Close'])
+df_dolar['Data'] = df_dolar['Data'].dt.strftime('%Y-%m-%d')
 
 #Pegando o valor do último fechamento para colocar no Painel
 ibov_ult = round(df_ibov['IBOV'].iloc[-1],2)
@@ -128,10 +128,12 @@ with col7:
     tab1, tab2, tab3 = st.tabs(['Ibovespa', 'Dólar','WTI'])
 
     #Configurando o Gráfico
-    fig_cdi = px.line(df_cdi, x='data', y='CDI', title="CDI ao longo do Tempo")
+    fig_ibov = px.line(df_ibov, x='Data', y='IBOV', title="Ibovespa")
+    fig_dol = px.line(df_dolar, x='Data', y='Dolar', title="Dólar")
 
     #Plotando o Gráfico na Tab
-    tab1.plotly_chart(fig_cdi)
+    tab1.plotly_chart(fig_ibov)
+    tab2.plotly_chart(fig_dol)
 
 #Rodapé do Sidebar
 st.sidebar.markdown('''
