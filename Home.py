@@ -60,9 +60,11 @@ df_ipca_igpm['data'] = df_ipca_igpm['data'].dt.strftime('%Y-%m-%d')
 #IIMPORTANDO OS DADOS DO IBOVESPA E DOLAR
 ibov = yf.Ticker('^BVSP').history(period='12mo')
 dolar = yf.Ticker('BRL=X').history(period='12mo')
+crude = yf.Ticker('CL=F').history(period='12mo')
 
 df_ibov = pd.DataFrame()
 df_dolar = pd.DataFrame()
+df_crude = pd.DataFrame()
 
 df_ibov['Data'] = ibov['Close'].index
 df_ibov['IBOV'] = list(ibov['Close'])
@@ -71,6 +73,10 @@ df_ibov['Data'] = df_ibov['Data'].dt.strftime('%Y-%m-%d')
 df_dolar['Data'] = dolar['Close'].index
 df_dolar['Dolar'] = list(dolar['Close'])
 df_dolar['Data'] = df_dolar['Data'].dt.strftime('%Y-%m-%d')
+
+df_crude['Data'] = crude['Close'].index
+df_crude['Crude'] = list(crude['Close'])
+df_crude['Data'] = df_crude['Data'].dt.strftime('%Y-%m-%d')
 
 #Pegando o valor do último fechamento para colocar no Painel
 ibov_ult = round(df_ibov['IBOV'].iloc[-1],2)
@@ -82,6 +88,11 @@ dol_ult = round(df_dolar['Dolar'].iloc[-1],2)
 atual_dol = '{0:,}'.format(dol_ult).replace('.',',')
 dol_ult_2 = round(df_dolar['Dolar'].iloc[-2],2)
 delta_dol = round(((dol_ult / dol_ult_2) - 1) * 100,2)
+
+crude_ult = round(df_crude['Crude'].iloc[-1],2)
+atual_crude = '{0:,}'.format(crude_ult).replace('.',',')
+crude_ult_2 = round(df_crude['Crude'].iloc[-2],2)
+delta_crude = round(((crude_ult / crude_ult_2) - 1) * 100,2)
 
 ######################======================#######################
 
@@ -95,12 +106,13 @@ with open('style.css') as f:
 #Editando a primeira linha do Dashboardo com informações dos Índices
 st.header('Benchmarks.')
 
-col1, col2, col3, col4, col5 = st.columns(5)
+col1, col2, col3, col4, col5, col6 = st.columns(6)
 col1.metric("CDI", "12,15%", "-0,50%")
 col2.metric("IPCA (12m)", "4,82%", "0,24%")
 col3.metric("IGPM (12m)", "-4,57%", "0,50%")
 col4.metric(label='Ibovespa(pts)', value=atual_ibov, delta=delta_ibov)
 col5.metric(label='Dólar', value=atual_dol, delta=delta_dol)
+col6.metric(label='Crude Oil', value=atual_crude, delta=delta_crude)
 
 col6, col7 = st.columns(2)
 
@@ -125,15 +137,17 @@ with col6:
     
 
 with col7:
-    tab1, tab2, tab3 = st.tabs(['Ibovespa', 'Dólar','WTI'])
+    tab1, tab2, tab3 = st.tabs(['Ibovespa', 'Dólar','Crude Oil'])
 
     #Configurando o Gráfico
     fig_ibov = px.line(df_ibov, x='Data', y='IBOV', title="Ibovespa")
     fig_dol = px.line(df_dolar, x='Data', y='Dolar', title="Dólar")
+    fig_crude = px.line(df_crude, x='Data', y='Crude', title="Crude Oil")
 
     #Plotando o Gráfico na Tab
     tab1.plotly_chart(fig_ibov)
     tab2.plotly_chart(fig_dol)
+    tab3.plotly_chart(fig_crude)
 
 #Rodapé do Sidebar
 st.sidebar.markdown('''
