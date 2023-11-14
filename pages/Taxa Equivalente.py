@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np 
 from PIL import Image
 import time
+import datetime
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
@@ -14,17 +15,24 @@ st.header('Taxa Equivalente.')
 
 taxa_opcao = st.selectbox(
     "Selecione o tipo de taxa (Ano ou Mês):",
-    ("Taxa ao mês (a.m.)", "Taxa ao ano (a.a.)")
+    ("Taxa ao mês (a.m.)", "Taxa ao ano (a.a.)", "Taxa ao Período")
 )
 
-taxa_pre_input = st.number_input(
-    "Digite a taxa:"
+if taxa_opcao == 'Taxa ao Período':
+    data_compra = st.date_input("Data de Compra", value=None)
+    data_venda = st.date_input("Data de Vencimento", value=None)
+    taxa_pre_input = st.number_input(
+    "Digite a taxa ao mês:"
 )
+else:
+    taxa_pre_input = st.number_input(
+        "Digite a taxa:"
+    )
 
-indice_converte = st.radio(
-    "Selecione o índice que deseja converter:",
-    ("CDI", "IPCA", "IGPM")
-)
+    indice_converte = st.radio(
+        "Selecione o índice que deseja converter:",
+        ("CDI", "IPCA", "IGPM")
+    )
 
 #taxas 
 cdi_indice = 0.1215
@@ -58,7 +66,7 @@ if st.button("Converter!") == True:
                     st.subheader(f"{indice_converte} - {round(taxa_pre_convert * 100,2)*-1}%")
                 else:
                     st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%") 
-        else :
+        elif taxa_opcao == "Taxa ao ano (a.a.)":
             juros_ao_mes = round((((1 + taxa_pre_input) ** (1/12)) - 1)*100,2)
             st.subheader(f"Juros ao mês: {juros_ao_mes}%")
             if indice_converte == "CDI":
@@ -78,7 +86,14 @@ if st.button("Converter!") == True:
                 if taxa_pre_convert < 0:
                     st.subheader(f"{indice_converte} - {round(taxa_pre_convert * 100,2)*-1}%")
                 else:
-                    st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")   
+                    st.subheader(f"{indice_converte} + {round(taxa_pre_convert * 100,2)}%")
+        else:
+            juros_ao_dia = round((((1 + taxa_pre_input) ** (1/21)) - 1)*100,2)
+            periodo = abs((data_venda-data_compra).days)
+            juros_periodo = round((((1 + (juros_ao_dia/100)) ** (periodo)) - 1)*100,2)
+            st.subheader(f"Juros no período: {juros_periodo}%")
+
+
 
 st.sidebar.markdown('''
 
