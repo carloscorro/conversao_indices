@@ -126,7 +126,7 @@ with col7:
     tab1, tab2, tab3 = st.tabs(['CDI', 'IPCA','IGPM'])
 
     #Configurando o Gráfico do CDI
-    fig_cdi = px.line(df_cdi, x='data', y='CDI', title="CDI", width=580)
+    fig_cdi = px.(df_cdi, x='data', y='CDI', title="CDI", width=580)
 
     #Configurando o Gráfico do IPCA
     fig_ipca = px.bar(df_ipca_igpm, x='data', y='IPCA', title='IPCA(%) ao mês', width=580)
