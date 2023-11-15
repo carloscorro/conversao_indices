@@ -1,8 +1,5 @@
 import streamlit as st
-import pandas as pd 
-import numpy as np 
-import yfinance as yf
-import numpy as np
+import pandas as pd
 import time
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")

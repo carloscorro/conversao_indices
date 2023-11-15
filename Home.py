@@ -4,7 +4,6 @@ import numpy as np
 import plotly
 import plotly.express as px
 import yfinance as yf
-import numpy as np
 import time
 
 #ACESSANDO OS DADOS POR API DO CDI, IPCA E IGPM
