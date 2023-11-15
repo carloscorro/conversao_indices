@@ -1,9 +1,8 @@
 import streamlit as st
-import pandas as pd 
-import numpy as np 
+import pandas as pd
+import yfinance as yf
 import plotly
 import plotly.express as px
-import yfinance as yf
 import time
 
 #ACESSANDO OS DADOS POR API DO CDI, IPCA E IGPM
