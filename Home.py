@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd 
 import numpy as np 
 import plotly.express as px
-import plotly.graph_objects as go
 import yfinance as yf
 import numpy as np
+import time
 
 #ACESSANDO OS DADOS POR API DO CDI, IPCA E IGPM
 codigos_bcb = [4389, 433, 189]

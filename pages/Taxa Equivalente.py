@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd 
 import numpy as np 
-from PIL import Image
+import plotly.express as px
+import yfinance as yf
+import numpy as np
 import time
-import datetime
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
