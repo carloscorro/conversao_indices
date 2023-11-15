@@ -1,5 +1,9 @@
 import streamlit as st
 import pandas as pd
+
+pip install yfinance
+pip install plotly.express
+
 import yfinance as yf
 import plotly
 import plotly.express as px
