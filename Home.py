@@ -156,5 +156,5 @@ st.sidebar.markdown('''
 
 **Mercedes Calculator** `version 1.1`
                     
-Created by [Carlos Mercedes](https://www.linkedin.com/in/carlos-mercedes-121096165/).
+Created by [Carlos Mercedes](https://www.linkedin.com/in/carlos-corro-121096165/).
 ''')
