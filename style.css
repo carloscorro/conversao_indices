@@ -13,7 +13,7 @@
 }
 
 .plot-container>div {
-    box-shadow: 2 2 3px #2a2a9c;
+    box-shadow: 2 2 3px #2828ad;
     padding: 10px;
      
     
@@ -23,5 +23,5 @@
 div[data-testid="stExpander"] div[role="button"] p
 {
     font-size: 1.3rem;
-    color:rgb(13, 1, 84)
+    color:rgb(21, 0, 141)
 }
