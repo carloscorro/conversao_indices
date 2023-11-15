@@ -8,12 +8,12 @@
 }
 
 [data-testid=metric-container] {
-    box-shadow: 0 0 4px #3a24ff;
+    box-shadow: 0 0 4px #24afff;
     padding: 10px;
 }
 
 .plot-container>div {
-    box-shadow: 2 2 3px #2828ad;
+    box-shadow: 2 2 3px #0047a3;
     padding: 10px;
      
     
@@ -23,5 +23,5 @@
 div[data-testid="stExpander"] div[role="button"] p
 {
     font-size: 1.3rem;
-    color:rgb(21, 0, 141)
+    color:rgb(0, 78, 141)
 }
