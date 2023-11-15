@@ -8,12 +8,12 @@
 }
 
 [data-testid=metric-container] {
-    box-shadow: 0 0 4px #044f4f;
+    box-shadow: 0 0 4px #0c044f;
     padding: 10px;
 }
 
 .plot-container>div {
-    box-shadow: 2 2 3px #1f1f87;
+    box-shadow: 2 2 3px #2a2a9c;
     padding: 10px;
      
     
