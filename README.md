@@ -1,6 +1,6 @@
 # Mcalc - Interest Rates Converter
 
-### Mcalc is a web application developed by me, where it convert interest rates based on Brasil benchmarks like CDI, IPCA and IGPM.
+### Mcalc is a web application developed by me, where it convert interest rates based on Brazil benchmarks like CDI, IPCA and IGPM.
 
 ![ezgif com-video-to-gif](https://github.com/carloscorro/conversao_indices/assets/65100808/389f7a22-1a55-406d-a065-4d69975b26f2)
 
