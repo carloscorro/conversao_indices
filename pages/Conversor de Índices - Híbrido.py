@@ -15,9 +15,7 @@ indice_input = st.radio(
     ("CDI", "IPCA", "IGPM")
 )
 
-taxa_pre_input = st.number_input(
-    "Digite a taxa pré-fixada do título:"
-)
+taxa_pre_input = st.number_input("Digite a taxa pré-fixada do título:")
 
 #taxas 
 cdi_indice = 0.1215

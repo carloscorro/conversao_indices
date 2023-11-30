@@ -90,8 +90,6 @@ if st.button("Converter!") == True:
             juros_periodo = round((((1 + (juros_ao_dia/100)) ** (periodo)) - 1)*100,2)
             st.subheader(f"Juros no período: {juros_periodo}%")
 
-
-
 st.sidebar.markdown('''
 
 Mercedes Calculator `version 1.1`

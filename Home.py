@@ -112,9 +112,9 @@ col1, col2, col3, col4, col5, col6 = st.columns([wid_col,wid_col,wid_col,wid_col
 col1.metric("CDI", "12,15%", "-0,50%")
 col2.metric("IPCA (12m)", "4,82%", "0,24%")
 col3.metric("IGPM (12m)", "-4,57%", "0,50%")
-col4.metric(label='Ibovespa(pts)', value=atual_ibov, delta=delta_ibov)
-col5.metric(label='Dólar', value=atual_dol, delta=delta_dol)
-col6.metric(label='Crude Oil', value=atual_crude, delta=delta_crude)
+col4.metric(label='Ibovespa(pts)', value=atual_ibov, delta=f"{delta_ibov}%")
+col5.metric(label='Dólar', value=atual_dol, delta=f"{delta_dol}%")
+col6.metric(label='Crude Oil', value=atual_crude, delta=f"{delta_crude}%")
 
 col7, col8 = st.columns(2)
 
